@@ -7,6 +7,8 @@ import { AuthenticateUserUseCase } from '../../domain/application/use-cases/user
 import { AuthModule } from './auth/auth.module';
 import { CreateProductController } from './controllers/products/create-product.controller';
 import { CreateProductUseCase } from '../../domain/application/use-cases/products/create-product';
+import { GetProductController } from './controllers/products/get-product.controller';
+import { GetProductUseCase } from '@/domain/application/use-cases/products/get-product';
 
 @Module({
   imports: [DatabaseModule, AuthModule],
@@ -14,7 +16,13 @@ import { CreateProductUseCase } from '../../domain/application/use-cases/product
     CreateUserController,
     AuthenticateUserController,
     CreateProductController,
+    GetProductController,
   ],
-  providers: [CreateUserUseCase, AuthenticateUserUseCase, CreateProductUseCase],
+  providers: [
+    CreateUserUseCase,
+    AuthenticateUserUseCase,
+    CreateProductUseCase,
+    GetProductUseCase,
+  ],
 })
 export class HttpModule {}
