@@ -12,6 +12,7 @@ import { z } from 'zod';
 import { ZodValidationPipe } from '../../pipes/zod-validation-pipe';
 import { UsersPresenter } from '../../presenters/users-presenter';
 import { UserAlreadyExistsError } from '../../../../domain/application/use-cases/errors/user-already-exists-error';
+import { Public } from '../../auth/public';
 
 const createUserSchema = z.object({
   name: z.string(),
@@ -25,6 +26,7 @@ type CreateUserDTO = z.infer<typeof createUserSchema>;
 export class CreateUserController {
   constructor(private createUserUseCase: CreateUserUseCase) {}
 
+  @Public()
   @Post()
   @UsePipes(new ZodValidationPipe(createUserSchema))
   async handle(@Body() body: CreateUserDTO) {
