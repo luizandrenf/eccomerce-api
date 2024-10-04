@@ -5,6 +5,7 @@ import { JwtEncrypter } from './jwt-encrypter';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtStrategy } from './jwt.strategy';
 import { JwtAuthGuard } from './jwt-auth.guard';
+import { Encrypter } from '../../../domain/application/cryptography/encrypter';
 
 @Module({
   imports: [
@@ -19,9 +20,12 @@ import { JwtAuthGuard } from './jwt-auth.guard';
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
     },
-    JwtEncrypter,
+    {
+      provide: Encrypter,
+      useClass: JwtEncrypter,
+    },
     JwtStrategy,
   ],
-  exports: [JwtEncrypter],
+  exports: [Encrypter],
 })
 export class AuthModule {}
