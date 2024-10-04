@@ -1,3 +1,4 @@
+import { CreateUserUseCase } from '../../../../domain/application/use-cases/users/create-user';
 import {
   Body,
   ConflictException,
@@ -6,11 +7,11 @@ import {
   Post,
   UsePipes,
 } from '@nestjs/common';
-import { UserAlreadyExistsError } from '../../../../domain/application/use-cases/errors/user-already-exists-error';
-import { CreateUserUseCase } from '../../../../domain/application/use-cases/users/create-user';
-import { ZodValidationPipe } from '../../pipes/zod-validation-pipe';
+
 import { z } from 'zod';
+import { ZodValidationPipe } from '../../pipes/zod-validation-pipe';
 import { UsersPresenter } from '../../presenters/users-presenter';
+import { UserAlreadyExistsError } from '../../../../domain/application/use-cases/errors/user-already-exists-error';
 
 const createUserSchema = z.object({
   name: z.string(),

@@ -1,4 +1,4 @@
-import { InMemoryUsersRepository } from '../../../../test/repositories/in-memory-users-repository';
+import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository';
 import { CreateUserUseCase } from './create-user';
 import { UserAlreadyExistsError } from '../errors/user-already-exists-error';
 
