@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Product } from '../../../enterprise/entities/product';
+import { Product } from '@/domain/enterprise/entities/product';
 import { ProductsRepository } from '../../repositories/products-repository';
 
 interface CreateProductUseCaseRequest {
