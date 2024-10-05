@@ -6,6 +6,7 @@ interface OrderItemProps {
   price: number;
   productId: string;
   orderId: string;
+  shoppingCartId: string;
 }
 
 export class OrderItem {
@@ -14,13 +15,22 @@ export class OrderItem {
   private _price: number;
   private _productId: string;
   private _orderId: string;
+  private _shoppingCartId: string;
 
-  constructor({ id, quantity, price, productId, orderId }: OrderItemProps) {
+  constructor({
+    id,
+    quantity,
+    price,
+    productId,
+    orderId,
+    shoppingCartId,
+  }: OrderItemProps) {
     this._id = id ?? randomUUID();
     this._quantity = quantity;
     this._price = price;
     this._productId = productId;
     this._orderId = orderId;
+    this._shoppingCartId = shoppingCartId;
   }
 
   get id(): string {
@@ -43,6 +53,10 @@ export class OrderItem {
     return this._orderId;
   }
 
+  get shoppingCartId(): string {
+    return this._orderId;
+  }
+
   static create(data: Partial<OrderItem>): OrderItem {
     return new OrderItem({
       id: data.id,
@@ -50,6 +64,7 @@ export class OrderItem {
       price: data.price,
       productId: data.productId,
       orderId: data.orderId,
+      shoppingCartId: data.shoppingCartId,
     });
   }
 }

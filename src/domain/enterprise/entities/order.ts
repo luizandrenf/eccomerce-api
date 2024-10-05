@@ -1,8 +1,10 @@
+import { OrderStatus } from '@prisma/client';
 import { randomUUID } from 'crypto';
 
 interface OrderProps {
   id?: string;
   totalPrice: number;
+  status?: OrderStatus;
   createdAt?: Date;
   userId: string;
 }
@@ -10,12 +12,14 @@ interface OrderProps {
 export class Order {
   private _id: string;
   private _totalPrice: number;
+  private _status: OrderStatus;
   private _createdAt: Date;
   private _userId: string;
 
-  constructor({ id, totalPrice, userId, createdAt }: OrderProps) {
+  constructor({ id, totalPrice, userId, createdAt, status }: OrderProps) {
     this._id = id ?? randomUUID();
     this._totalPrice = totalPrice;
+    this._status = status ?? OrderStatus.PENDING;
     this._createdAt = createdAt ?? new Date();
     this._userId = userId;
   }
@@ -26,6 +30,10 @@ export class Order {
 
   get totalPrice(): number {
     return this._totalPrice;
+  }
+
+  get status(): OrderStatus {
+    return this._status;
   }
 
   get createdAt(): Date {
@@ -40,6 +48,7 @@ export class Order {
     return new Order({
       id: data.id,
       totalPrice: data.totalPrice,
+      status: data.status,
       createdAt: data.createdAt,
       userId: data.userId,
     });
