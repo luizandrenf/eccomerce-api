@@ -31,6 +31,7 @@ describe('Create user (E2E)', () => {
     });
 
     expect(response.status).toBe(201);
+    expect(response.body.user).toBeTruthy();
 
     const userOnDatabase = await prisma.user.findUnique({
       where: {
