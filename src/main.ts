@@ -2,9 +2,11 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { config } from 'dotenv';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { patchNestJsSwagger } from 'nestjs-zod';
 config();
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  patchNestJsSwagger();
 
   app.setGlobalPrefix('/api');
 

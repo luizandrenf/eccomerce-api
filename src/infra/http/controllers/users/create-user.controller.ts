@@ -13,6 +13,8 @@ import { ZodValidationPipe } from '../../pipes/zod-validation-pipe';
 import { UsersPresenter } from '../../presenters/users-presenter';
 import { UserAlreadyExistsError } from '../../../../domain/application/use-cases/errors/user-already-exists-error';
 import { Public } from '../../auth/public';
+import { createZodDto } from 'nestjs-zod';
+import { ApiBody } from '@nestjs/swagger';
 
 const createUserSchema = z.object({
   name: z.string(),
@@ -20,16 +22,17 @@ const createUserSchema = z.object({
   password: z.string().min(6),
 });
 
-type CreateUserDTO = z.infer<typeof createUserSchema>;
+type CreateUserSchema = z.infer<typeof createUserSchema>;
+class CreateUserDTO extends createZodDto(createUserSchema) {}
 
 @Controller('/users')
 export class CreateUserController {
   constructor(private createUserUseCase: CreateUserUseCase) {}
-
+  @ApiBody({ type: CreateUserDTO })
   @Public()
   @Post()
   @UsePipes(new ZodValidationPipe(createUserSchema))
-  async handle(@Body() body: CreateUserDTO) {
+  async handle(@Body() body: CreateUserSchema) {
     try {
       const createdUser = await this.createUserUseCase.execute({
         name: body.name,
