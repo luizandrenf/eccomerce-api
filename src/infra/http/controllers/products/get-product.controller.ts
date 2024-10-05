@@ -21,7 +21,9 @@ export class GetProductController {
         id,
       });
 
-      return ProductsPresenter.toHttp(createdProduct);
+      return {
+        product: ProductsPresenter.toHttp(createdProduct),
+      };
     } catch (error: any) {
       switch (error.constructor) {
         case ResourceNotFoundError:

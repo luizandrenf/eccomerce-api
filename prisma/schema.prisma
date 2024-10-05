@@ -27,15 +27,23 @@ model User {
   cratedAt  DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  Order Order[]
+  Order        Order[]
+  ShoppingCart ShoppingCart?
 
   @@map("users")
 }
 
+enum OrderStatus {
+  PENDING
+  COMPLETED
+  CANCELLED
+}
+
 model Order {
-  id         String   @id @default(uuid()) @db.Uuid()
+  id         String      @id @default(uuid()) @db.Uuid()
   totalPrice Float
-  createdAt  DateTime @default(now()) @map("created_at")
+  status     OrderStatus @default(PENDING)
+  createdAt  DateTime    @default(now()) @map("created_at")
 
   userId String @map("user_id") @db.Uuid()
 
@@ -61,11 +69,21 @@ model OrderItem {
   quantity Int
   price    Float
 
-  productId String @map("product_id") @db.Uuid()
-  orderId   String @map("order_id") @db.Uuid()
+  productId      String @map("product_id") @db.Uuid()
+  shoppingCartId String @map("shopping_cart_id") @db.Uuid()
+  orderId        String @map("order_id") @db.Uuid()
 
-  order   Order   @relation(fields: [orderId], references: [id])
-  product Product @relation(fields: [productId], references: [id])
+  order        Order        @relation(fields: [orderId], references: [id])
+  product      Product      @relation(fields: [productId], references: [id])
+  ShoppingCart ShoppingCart @relation(fields: [shoppingCartId], references: [id])
 
   @@map("order_items")
+}
+
+model ShoppingCart {
+  id     String      @id @default(uuid()) @db.Uuid()
+  userId String      @unique @map("user_id") @db.Uuid()
+  items  OrderItem[]
+
+  user User @relation(fields: [userId], references: [id])
 }

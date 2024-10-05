@@ -40,7 +40,9 @@ export class CreateUserController {
         password: body.password,
       });
 
-      return UsersPresenter.toHttp(createdUser);
+      return {
+        user: UsersPresenter.toHttp(createdUser),
+      };
     } catch (error: any) {
       switch (error.constructor) {
         case UserAlreadyExistsError:

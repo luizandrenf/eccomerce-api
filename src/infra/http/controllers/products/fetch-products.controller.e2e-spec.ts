@@ -9,7 +9,7 @@ import { JwtService } from '@nestjs/jwt';
 import { hash } from 'bcryptjs';
 config();
 
-describe('Get product (E2E)', () => {
+describe('Fetch products (E2E)', () => {
   let app: INestApplication;
   let prisma: PrismaService;
   let jwt: JwtService;
@@ -27,7 +27,7 @@ describe('Get product (E2E)', () => {
     await app.init();
   });
 
-  test('[GET] /products/:id', async () => {
+  test('[GET] /products', async () => {
     const createdUser = await prisma.user.create({
       data: {
         name: 'Jhon Doe',
@@ -38,22 +38,29 @@ describe('Get product (E2E)', () => {
 
     const accessToken = jwt.sign({ sub: createdUser.id });
 
-    const createdProduct = await prisma.product.create({
-      data: {
-        name: 'random',
-        description: 'random',
-        price: 50.0,
-      },
-    });
-
-    const { id } = createdProduct;
+    Promise.all([
+      await prisma.product.create({
+        data: {
+          name: 'Product 1',
+          description: 'Product 1',
+          price: 100.0,
+        },
+      }),
+      await prisma.product.create({
+        data: {
+          name: 'Product 2',
+          description: 'Product 2',
+          price: 200.0,
+        },
+      }),
+    ]);
 
     const response = await request(app.getHttpServer())
-      .get(`/products/${id}`)
+      .get('/products')
       .set('Authorization', `Bearer ${accessToken}`)
       .send();
 
     expect(response.status).toBe(200);
-    expect(response.body.product).toBeTruthy();
+    expect(response.body.products).toHaveLength(2);
   });
 });

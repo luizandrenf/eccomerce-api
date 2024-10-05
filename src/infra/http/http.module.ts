@@ -9,6 +9,8 @@ import { CreateProductController } from './controllers/products/create-product.c
 import { CreateProductUseCase } from '../../domain/application/use-cases/products/create-product';
 import { GetProductController } from './controllers/products/get-product.controller';
 import { GetProductUseCase } from '@/domain/application/use-cases/products/get-product';
+import { FetchProductsController } from './controllers/products/fetch-products.controller';
+import { FetchProductsUseCase } from '@/domain/application/use-cases/products/fetch-products';
 
 @Module({
   imports: [DatabaseModule, AuthModule],
@@ -17,12 +19,14 @@ import { GetProductUseCase } from '@/domain/application/use-cases/products/get-p
     AuthenticateUserController,
     CreateProductController,
     GetProductController,
+    FetchProductsController,
   ],
   providers: [
     CreateUserUseCase,
     AuthenticateUserUseCase,
     CreateProductUseCase,
     GetProductUseCase,
+    FetchProductsUseCase,
   ],
 })
 export class HttpModule {}
