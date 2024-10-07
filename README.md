@@ -3,7 +3,6 @@
 ## Features
 - [X] Sing-in;
 - [X] Sing-up;
-- [ ] Get Product;
-- [ ] Search Product;
-- [ ] List products;
+- [X] Get Product;
+- [X] List products;
 - [ ] Shopping Cart;
